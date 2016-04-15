@@ -100,6 +100,11 @@ public class HttpClientManager {
 					if (param instanceof StoreItem) {
 						StoreItem storeItem = (StoreItem) param;
 						
+						boolean hasContainsDirectory = storeItem.stream().anyMatch(filePOJO -> filePOJO.isDirectory() == true);
+						if (hasContainsDirectory) {
+							throw new Exception("Cannot contain directory to StoreItem !");
+						}
+						
 						for (FilePOJO filePOJO : storeItem) {
 							if (filePOJO.getFile() != null) {
 								multipartEntityBuilder.addBinaryBody("binary", filePOJO.getFile(), ContentType.APPLICATION_OCTET_STREAM, filePOJO.getNameWithExtension());
