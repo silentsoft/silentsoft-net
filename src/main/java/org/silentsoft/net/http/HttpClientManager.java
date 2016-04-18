@@ -43,7 +43,7 @@ public class HttpClientManager {
 	}
 	
 	public static <T> T doGet(String uri, Header[] headers, Class<T> returnType) throws Exception {
-		return doAction(uri, null, null, returnType, RequestType.GET);
+		return doAction(uri, headers, null, returnType, RequestType.GET);
 	}
 	
 	public static <T> T doPost(String uri, Object param, Class<T> returnType) throws Exception {
