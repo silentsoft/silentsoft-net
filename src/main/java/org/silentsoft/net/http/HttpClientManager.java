@@ -84,7 +84,13 @@ public class HttpClientManager {
 					httpPost = new HttpPost(uri);
 					
 					if (param != null) {
-						StringEntity stringEntity = new StringEntity(new JSONObject(param).toString(), Charset.forName("UTF-8"));
+						String json = "";
+						if (param instanceof String) {
+							json = new JSONObject((String)param).toString();
+						} else {
+							json = new JSONObject(param).toString();
+						}
+						StringEntity stringEntity = new StringEntity(json, Charset.forName("UTF-8"));
 						stringEntity.setContentType("application/json; charset=UTF-8");
 						
 						httpPost.setEntity(stringEntity);
