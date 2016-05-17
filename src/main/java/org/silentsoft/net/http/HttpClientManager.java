@@ -1,6 +1,7 @@
 package org.silentsoft.net.http;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.apache.http.Header;
@@ -135,9 +136,9 @@ public class HttpClientManager {
 			
 			httpEntity = httpResponse.getEntity();
 			if (httpEntity != null) {
-				String body = EntityUtils.toString(httpEntity, Charset.forName("UTF-8"));
-				if (body.length() > 0) {
-					returnValue = (T)new ObjectMapper().readValue(body, returnType);
+				InputStream content = httpEntity.getContent();
+				if (content != null) {
+					returnValue = (T) new ObjectMapper().readValue(content, returnType);
 				}
 			}
 			
