@@ -138,7 +138,11 @@ public class HttpClientManager {
 			if (httpEntity != null) {
 				InputStream content = httpEntity.getContent();
 				if (content != null) {
-					returnValue = (T) new ObjectMapper().readValue(content, returnType);
+					try {
+						returnValue = (T) new ObjectMapper().readValue(content, returnType);
+					} catch (Exception e) {
+						returnValue = null;
+					}
 				}
 			}
 			
