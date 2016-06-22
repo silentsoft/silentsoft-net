@@ -1,6 +1,9 @@
 package org.silentsoft.net.rest;
 
-import org.apache.http.Header;
+import java.util.function.Consumer;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.silentsoft.net.http.HttpClientManager;
 
 /**
@@ -30,28 +33,40 @@ public class RESTfulAPI {
 		return uri + root + api;
 	}
 	
-	public static void doGet(String api, Header[] headers) throws Exception {
-		doGet(api, headers, null);
+	protected static <T> T doGet(String api, Class<T> returnType) throws Exception {
+		return HttpClientManager.doGet(getURI(api), returnType);
 	}
 	
-	public static <T> T doGet(String api, Header[] headers, Class<T> returnType) throws Exception {
-		return HttpClientManager.doGet(getURI(api), headers, returnType);
+	protected static <T> T doGet(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(getURI(api), returnType, beforeRequest);
 	}
 	
-	public static void doPost(String api, Header[] headers, Object param) throws Exception {
-		doPost(api, headers, param, null);
+	protected static <T> T doGet(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(getURI(api), returnType, beforeRequest, afterResponse);
 	}
 	
-	public static <T> T doPost(String api, Header[] headers, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doPost(getURI(api), headers, param, returnType);
+	protected static <T> T doPost(String api, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doPost(getURI(api), param, returnType);
 	}
 	
-	public static void doMultipart(String api, Header[] headers, Object param) throws Exception {
-		doMultipart(api, headers, param, null);
+	protected static <T> T doPost(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(getURI(api), param, returnType, beforeRequest);
 	}
 	
-	public static <T> T doMultipart(String api, Header[] headers, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), headers, param, returnType);
+	protected static <T> T doPost(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(getURI(api), param, returnType, beforeRequest, afterResponse);
+	}
+	
+	protected static <T> T doMultipart(String api, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doMultipart(getURI(api), param, returnType);
+	}
+	
+	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(getURI(api), param, returnType, beforeRequest);
+	}
+	
+	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(getURI(api), param, returnType, beforeRequest, afterResponse);
 	}
 	
 }

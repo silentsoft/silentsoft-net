@@ -6,9 +6,11 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -89,30 +91,42 @@ public class HttpClientManager {
 	};
 
 	public static <T> T doGet(String uri, Class<T> returnType) throws Exception {
-		return doGet(uri, null, returnType);
+		return doAction(RequestType.GET, uri, null, returnType, null, null);
 	}
 	
-	public static <T> T doGet(String uri, Header[] headers, Class<T> returnType) throws Exception {
-		return doAction(uri, headers, null, returnType, RequestType.GET);
+	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, null, returnType, beforeRequest, null);
+	}
+	
+	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, null, returnType, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doPost(String uri, Object param, Class<T> returnType) throws Exception {
-		return doPost(uri, null, param, returnType);
+		return doAction(RequestType.POST, uri, param, returnType, null, null);
 	}
 	
-	public static <T> T doPost(String uri, Header[] headers, Object param, Class<T> returnType) throws Exception {
-		return doAction(uri, headers, param, returnType, RequestType.POST);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, param, returnType, beforeRequest, null);
+	}
+	
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, param, returnType, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doMultipart(String uri, Object param, Class<T> returnType) throws Exception {
-		return doMultipart(uri, null, param, returnType);
+		return doAction(RequestType.MULTIPART, uri, param, returnType, null, null);
 	}
 	
-	public static <T> T doMultipart(String uri, Header[] headers, Object param, Class<T> returnType) throws Exception {
-		return doAction(uri, headers, param, returnType, RequestType.MULTIPART);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, param, returnType, beforeRequest, null);
 	}
 	
-	private static <T> T doAction(String uri, Header[] headers, Object param, Class<T> returnType, RequestType requestType) throws Exception {
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, param, returnType, beforeRequest, afterResponse);
+	}
+	
+	private static <T> T doAction(RequestType requestType, String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		T returnValue = null;
 		
 		HttpGet httpGet = null;
@@ -126,7 +140,8 @@ public class HttpClientManager {
 				{
 					httpGet = new HttpGet(uri);
 					
-					httpResponse = execute(httpGet, headers);
+					httpResponse = execute(httpGet, beforeRequest, afterResponse);
+					
 					break;
 				}
 				case POST:
@@ -146,7 +161,8 @@ public class HttpClientManager {
 						httpPost.setEntity(stringEntity);
 					}
 					
-					httpResponse = execute(httpPost, headers);
+					httpResponse = execute(httpPost, beforeRequest, afterResponse);
+					
 					break;
 				}
 				case MULTIPART:
@@ -192,19 +208,22 @@ public class HttpClientManager {
 					httpPost = new HttpPost(uri);
 					httpPost.setEntity(multipartEntityBuilder.build());
 					
-					httpResponse = execute(httpPost, headers);
+					httpResponse = execute(httpPost, beforeRequest, afterResponse);
+					
 					break;
 				}
 			}
 			
-			httpEntity = httpResponse.getEntity();
-			if (httpEntity != null) {
-				InputStream content = httpEntity.getContent();
-				if (content != null) {
-					try {
-						returnValue = (T) new ObjectMapper().readValue(content, returnType);
-					} catch (Exception e) {
-						returnValue = null;
+			if (returnType != null) {
+				httpEntity = httpResponse.getEntity();
+				if (httpEntity != null) {
+					InputStream content = httpEntity.getContent();
+					if (content != null) {
+						try {
+							returnValue = (T) new ObjectMapper().readValue(content, returnType);
+						} catch (Exception e) {
+							returnValue = null;
+						}
 					}
 				}
 			}
@@ -225,9 +244,20 @@ public class HttpClientManager {
 		return returnValue;
 	}
 	
-	private static CloseableHttpResponse execute(HttpUriRequest request, Header[] headers) throws IOException, ClientProtocolException {
-		request.setHeaders(headers);
+	private static CloseableHttpResponse execute(HttpUriRequest request, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws ClientProtocolException, IOException {
+		CloseableHttpResponse httpResponse = null;
 		
-		return HttpClientFactory.getHttpClient().execute(request);
+		if (beforeRequest != null) {
+			beforeRequest.accept(request);
+		}
+		
+		httpResponse = HttpClientFactory.getHttpClient().execute(request);
+		
+		if (afterResponse != null) {
+			afterResponse.accept(httpResponse);
+		}
+		
+		return httpResponse;
 	}
+	
 }
