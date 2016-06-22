@@ -23,11 +23,15 @@ public class PushbulletAPI extends RESTfulAPI {
 	}
 	
 	public static UserInfo getUserInfo(String accessToken) throws Exception {
-		return doGet("/users/me", new Header[]{new BasicHeader("Access-Token", accessToken)}, UserInfo.class);
+		return doGet("/users/me", UserInfo.class, (request) -> {
+			request.setHeader(new BasicHeader("Access-Token", accessToken));
+		});
 	}
 	
 	public static List<Device> getDevices(String accessToken) throws Exception {
-		Devices devices = doGet("/devices", new Header[]{new BasicHeader("Access-Token", accessToken)}, Devices.class);
+		Devices devices = doGet("/devices", Devices.class, (request) -> {
+			request.setHeader(new BasicHeader("Access-Token", accessToken));
+		});
 		
 		return (devices == null) ? null : devices.getDevices();
 	}
@@ -39,7 +43,9 @@ public class PushbulletAPI extends RESTfulAPI {
 		param.put("title", title);
 		param.put("body", body);
 		
-		return doPost("/pushes", new Header[]{new BasicHeader("Access-Token", accessToken)}, new ObjectMapper().writeValueAsString(param), Push.class);
+		return doPost("/pushes", new ObjectMapper().writeValueAsString(param), Push.class, (request) -> {
+			request.setHeader(new BasicHeader("Access-Token", accessToken));
+		});
 	}
 	
 }
