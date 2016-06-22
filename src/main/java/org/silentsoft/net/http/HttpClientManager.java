@@ -1,8 +1,11 @@
 package org.silentsoft.net.http;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -31,6 +34,52 @@ public class HttpClientManager {
 		 * WARNING : DO NOT REMOVE BELOW CODE ! THIS IS VERY IMPORTANT FOR PERFORMANCE !!!
 		 */
 		Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+	}
+	
+	static class ObjectBackupManager {
+		private Map<Object, Object> map;
+		private Map<Object, Object> getMap() {
+			if (map == null) {
+				map = new HashMap<Object, Object>();
+			}
+			
+			return map;
+		}
+		
+		public boolean backup(Object key, Object value) {
+			if (key == null) {
+				return false;
+			}
+			
+			getMap().put(key, value);
+			
+			return true;
+		}
+		
+		public Object restore(Object key) {
+			return restore(key, true);
+		}
+		
+		public Object restore(Object key, boolean remove) {
+			if (key == null) {
+				return null;
+			}
+			
+			Object value = getMap().get(key);
+			
+			if (remove && getMap().containsKey(key)) {
+				getMap().remove(key);
+			}
+			
+			return value;
+		}
+		
+		public void clean() {
+			if (map != null) {
+				map.clear();
+				map = null;
+			}
+		}
 	}
 	
 	private static enum RequestType {
@@ -112,16 +161,30 @@ public class HttpClientManager {
 							throw new Exception("Cannot contain directory to StoreItem !");
 						}
 						
+						ObjectBackupManager fileBackupManager = new ObjectBackupManager();
+						ObjectBackupManager bytesBackupManager = new ObjectBackupManager();
+						
 						for (FilePOJO filePOJO : storeItem) {
 							if (filePOJO.getFile() != null) {
 								multipartEntityBuilder.addBinaryBody("binary", filePOJO.getFile(), ContentType.APPLICATION_OCTET_STREAM, filePOJO.getNameWithExtension());
 							}
+							
+							fileBackupManager.backup(filePOJO, filePOJO.getFile());
+							bytesBackupManager.backup(filePOJO, filePOJO.getBytes());
 							
 							filePOJO.setFile(null);
 							filePOJO.setBytes(null);
 						}
 						
 						multipartEntityBuilder.addTextBody("json", new JSONObject(storeItem).toString(), ContentType.APPLICATION_JSON);
+						
+						for (FilePOJO filePOJO : storeItem) {
+							filePOJO.setFile((File) fileBackupManager.restore(filePOJO));
+							filePOJO.setBytes((byte[]) bytesBackupManager.restore(filePOJO));
+						}
+						
+						fileBackupManager.clean();
+						bytesBackupManager.clean();
 					} else {
 						return null;
 					}
