@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -126,6 +129,7 @@ public class HttpClientManager {
 		return doAction(RequestType.MULTIPART, uri, param, returnType, beforeRequest, afterResponse);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static <T> T doAction(RequestType requestType, String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		T returnValue = null;
 		
@@ -149,16 +153,34 @@ public class HttpClientManager {
 					httpPost = new HttpPost(uri);
 					
 					if (param != null) {
-						String json = "";
-						if (param instanceof String) {
-							json = new JSONObject((String)param).toString();
-						} else {
-							json = new JSONObject(param).toString();
-						}
-						StringEntity stringEntity = new StringEntity(json, Charset.forName("UTF-8"));
-						stringEntity.setContentType("application/json; charset=UTF-8");
+						boolean isUrlEncodedFormEntity = true;
 						
-						httpPost.setEntity(stringEntity);
+						if (param instanceof List<?>) {
+							for (Object obj : ((List<?>) param)) {
+								if (obj instanceof NameValuePair == false) {
+									isUrlEncodedFormEntity = false;
+									break;
+								}
+							}
+						}
+						
+						if (isUrlEncodedFormEntity) {
+							UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity((List<? extends NameValuePair>) param, Charset.forName("UTF-8"));
+							urlEncodedFormEntity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+							
+							httpPost.setEntity(urlEncodedFormEntity);
+						} else {
+							String json = "";
+							if (param instanceof String) {
+								json = new JSONObject((String)param).toString();
+							} else {
+								json = new JSONObject(param).toString();
+							}
+							StringEntity stringEntity = new StringEntity(json, Charset.forName("UTF-8"));
+							stringEntity.setContentType("application/json; charset=UTF-8");
+							
+							httpPost.setEntity(stringEntity);
+						}
 					}
 					
 					httpResponse = execute(httpPost, beforeRequest, afterResponse);
@@ -172,6 +194,9 @@ public class HttpClientManager {
 					if (param instanceof StoreItem) {
 						StoreItem storeItem = (StoreItem) param;
 						
+						/**
+						 * If necessary, comment out the following logic when you do not want to transfer directory.
+						 */
 						boolean hasContainsDirectory = storeItem.stream().anyMatch(filePOJO -> filePOJO.isDirectory() == true);
 						if (hasContainsDirectory) {
 							throw new Exception("Cannot contain directory to StoreItem !");
@@ -181,7 +206,7 @@ public class HttpClientManager {
 						ObjectBackupManager bytesBackupManager = new ObjectBackupManager();
 						
 						for (FilePOJO filePOJO : storeItem) {
-							if (filePOJO.getFile() != null) {
+							if (filePOJO.isDirectory() == false && filePOJO.getFile() != null) {
 								multipartEntityBuilder.addBinaryBody("binary", filePOJO.getFile(), ContentType.APPLICATION_OCTET_STREAM, filePOJO.getNameWithExtension());
 							}
 							
@@ -217,12 +242,16 @@ public class HttpClientManager {
 			if (returnType != null) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					InputStream content = httpEntity.getContent();
-					if (content != null) {
-						try {
-							returnValue = (T) new ObjectMapper().readValue(content, returnType);
-						} catch (Exception e) {
-							returnValue = null;
+					if (returnType == String.class) {
+						returnValue = (T) EntityUtils.toString(httpEntity, Charset.forName("UTF-8"));
+					} else {
+						InputStream content = httpEntity.getContent();
+						if (content != null) {
+							try {
+								returnValue = (T) new ObjectMapper().readValue(content, returnType);
+							} catch (Exception e) {
+								returnValue = null;
+							}
 						}
 					}
 				}
