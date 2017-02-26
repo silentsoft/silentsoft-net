@@ -271,14 +271,21 @@ public class HttpClientManager {
 					}
 					
 					if (param != null) {
-						boolean isUrlEncodedFormEntity = true;
+						boolean isUrlEncodedFormEntity = false;
 						
 						if (param instanceof List<?>) {
-							for (Object obj : ((List<?>) param)) {
-								if (obj instanceof NameValuePair == false) {
-									isUrlEncodedFormEntity = false;
-									break;
+							List<?> list = (List<?>) param;
+							for (int i=0, j=list.size(); i<j; i++) {
+								Object object = list.get(i);
+								if (object instanceof NameValuePair) {
+									if (i == j-1) {
+										isUrlEncodedFormEntity = true;
+									}
+									
+									continue;
 								}
+								
+								break;
 							}
 						}
 						
