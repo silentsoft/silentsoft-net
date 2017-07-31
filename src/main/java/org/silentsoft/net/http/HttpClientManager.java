@@ -3,6 +3,10 @@ package org.silentsoft.net.http;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +37,46 @@ import org.silentsoft.net.pojo.FilePOJO;
 import org.slf4j.helpers.MessageFormatter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.markusbernhardt.proxy.ProxySearch;
 
 public class HttpClientManager {
+	
+	static boolean useDefaultProxy = true;
 	
 	static {
 		/**
 		 * WARNING : DO NOT REMOVE BELOW CODE ! THIS IS VERY IMPORTANT FOR PERFORMANCE !!!
 		 */
 		Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+	}
+	
+	public static boolean isUseDefaultProxy() {
+		return useDefaultProxy;
+	}
+
+	public static void setUseDefaultProxy(boolean useDefaultProxy) {
+		HttpClientManager.useDefaultProxy = useDefaultProxy;
+	}
+	
+	static HttpHost proxyHost;
+	private static HttpHost getDefaultProxyHost(String dummyUri) {
+		if (useDefaultProxy) {
+			if (proxyHost == null) {
+				List<Proxy> proxies = ProxySearch.getDefaultProxySearch().getProxySelector().select(URI.create(dummyUri));
+				if (proxies != null && proxies.isEmpty() == false) {
+					for (Proxy proxy : proxies) {
+						SocketAddress socketAddress = proxy.address();
+						if (socketAddress instanceof InetSocketAddress) {
+							InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddress;
+							proxyHost = new HttpHost(inetSocketAddress.getHostName(), inetSocketAddress.getPort());
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		return proxyHost;
 	}
 	
 	static class ObjectBackupManager {
@@ -255,6 +291,9 @@ public class HttpClientManager {
 				case GET:
 				{
 					httpGet = new HttpGet(uri);
+					if (proxy == null) {
+						proxy = getDefaultProxyHost(uri);
+					}
 					if (proxy != null) {
 						httpGet.setConfig(RequestConfig.custom().setProxy(proxy).build());
 					}
@@ -266,6 +305,9 @@ public class HttpClientManager {
 				case POST:
 				{
 					httpPost = new HttpPost(uri);
+					if (proxy == null) {
+						proxy = getDefaultProxyHost(uri);
+					}
 					if (proxy != null) {
 						httpPost.setConfig(RequestConfig.custom().setProxy(proxy).build());
 					}
@@ -356,6 +398,9 @@ public class HttpClientManager {
 					}
 					
 					httpPost = new HttpPost(uri);
+					if (proxy == null) {
+						proxy = getDefaultProxyHost(uri);
+					}
 					if (proxy != null) {
 						httpPost.setConfig(RequestConfig.custom().setProxy(proxy).build());
 					}
