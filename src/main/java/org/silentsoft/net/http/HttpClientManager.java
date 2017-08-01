@@ -41,7 +41,7 @@ import com.github.markusbernhardt.proxy.ProxySearch;
 
 public class HttpClientManager {
 	
-	static boolean useDefaultProxy = true;
+	static boolean useDefaultProxy = false;
 	
 	static {
 		/**
