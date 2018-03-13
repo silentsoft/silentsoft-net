@@ -25,6 +25,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -130,149 +131,239 @@ public class HttpClientManager {
 		POST,
 		MULTIPART
 	};
-
+	
 	public static <T> T doGet(String uri, Class<T> returnType) throws Exception {
 		return doAction(RequestType.GET, uri, null, null, returnType, null, null, null);
 	}
-	
 	public static <T> T doGet(String uri, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.GET, uri, null, null, returnType, charsetName, null, null);
 	}
-	
+	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, null, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
 	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
 		return doAction(RequestType.GET, uri, proxy, null, returnType, null, null, null);
 	}
-	
 	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.GET, uri, proxy, null, returnType, charsetName, null, null);
 	}
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
+	}
 	
+	public static <T> T doGet(String uri, Object param, Class<T> returnType) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, null, null, null);
+	}
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, null, null, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
 	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
 		return doAction(RequestType.GET, uri, null, null, returnType, null, beforeRequest, null);
 	}
-	
-	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.GET, uri, null, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, null, null, returnType, null, beforeRequest, afterResponse);
+	}
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, null, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
 		return doAction(RequestType.GET, uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	
-	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.GET, uri, proxy, null, returnType, charsetName, beforeRequest, null);
-	}
-	
-	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.GET, uri, null, null, returnType, null, beforeRequest, afterResponse);
-	}
-	
-	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.GET, uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
-	}
-	
 	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		return doAction(RequestType.GET, uri, proxy, null, returnType, null, beforeRequest, afterResponse);
 	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, null, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.GET, uri, proxy, param, returnType, null, beforeRequest, afterResponse);
+	}
 	
-	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.GET, uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, Class<T> returnType) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, null, null, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, null, null, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doPost(String uri, Object param, Class<T> returnType) throws Exception {
 		return doAction(RequestType.POST, uri, null, param, returnType, null, null, null);
 	}
-	
 	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.POST, uri, null, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, null, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
 		return doAction(RequestType.POST, uri, proxy, param, returnType, null, null, null);
 	}
-	
 	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.POST, uri, proxy, param, returnType, charsetName, null, null);
 	}
-	
-	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.POST, uri, null, param, returnType, null, beforeRequest, null);
-	}
-	
-	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.POST, uri, null, param, returnType, charsetName, beforeRequest, null);
-	}
-	
-	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.POST, uri, proxy, param, returnType, null, beforeRequest, null);
-	}
-	
 	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
 		return doAction(RequestType.POST, uri, proxy, param, returnType, charsetName, beforeRequest, null);
 	}
-	
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
+	public static <T> T doPost(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, null, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, null, null, returnType, null, beforeRequest, afterResponse);
+	}
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, null, param, returnType, null, beforeRequest, null);
+	}
 	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		return doAction(RequestType.POST, uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.POST, uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, null, returnType, null, beforeRequest, afterResponse);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.POST, uri, proxy, param, returnType, null, beforeRequest, null);
+	}
 	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		return doAction(RequestType.POST, uri, proxy, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.POST, uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, Class<T> returnType) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, null, null, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, null, null, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doMultipart(String uri, Object param, Class<T> returnType) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, null, param, returnType, null, null, null);
 	}
-	
 	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, null, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
 	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, null, null, null);
 	}
-	
 	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, charsetName, null, null);
 	}
-	
-	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.MULTIPART, uri, null, param, returnType, null, beforeRequest, null);
-	}
-	
-	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.MULTIPART, uri, null, param, returnType, charsetName, beforeRequest, null);
-	}
-	
-	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, null, beforeRequest, null);
-	}
-	
 	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, charsetName, beforeRequest, null);
 	}
-	
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+
+	public static <T> T doMultipart(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, null, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, null, returnType, null, beforeRequest, afterResponse);
+	}
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, null, param, returnType, null, beforeRequest, null);
+	}
 	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.MULTIPART, uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, null, returnType, null, beforeRequest, afterResponse);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, null, beforeRequest, null);
+	}
 	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
 		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, null, beforeRequest, afterResponse);
-	}
-	
-	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return doAction(RequestType.MULTIPART, uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -298,6 +389,12 @@ public class HttpClientManager {
 						httpGet.setConfig(RequestConfig.custom().setProxy(proxy).build());
 					}
 					
+					if (param != null) {
+						if (isUrlEncodedFormEntity(param)) {
+							httpGet.setURI(new URIBuilder(httpGet.getURI()).addParameters((List<NameValuePair>) param).build());
+						}
+					}
+					
 					httpResponse = execute(httpGet, beforeRequest, afterResponse);
 					
 					break;
@@ -313,25 +410,7 @@ public class HttpClientManager {
 					}
 					
 					if (param != null) {
-						boolean isUrlEncodedFormEntity = false;
-						
-						if (param instanceof List<?>) {
-							List<?> list = (List<?>) param;
-							for (int i=0, j=list.size(); i<j; i++) {
-								Object object = list.get(i);
-								if (object instanceof NameValuePair) {
-									if (i == j-1) {
-										isUrlEncodedFormEntity = true;
-									}
-									
-									continue;
-								}
-								
-								break;
-							}
-						}
-						
-						if (isUrlEncodedFormEntity) {
+						if (isUrlEncodedFormEntity(param)) {
 							UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity((List<? extends NameValuePair>) param, Charset.forName(_charsetName));
 							urlEncodedFormEntity.setContentType("application/x-www-form-urlencoded; charset=".concat(_charsetName));
 							
@@ -444,6 +523,28 @@ public class HttpClientManager {
 		}
 		
 		return returnValue;
+	}
+	
+	private static boolean isUrlEncodedFormEntity(Object param) {
+		boolean isUrlEncodedFormEntity = false;
+		
+		if (param instanceof List<?>) {
+			List<?> list = (List<?>) param;
+			for (int i=0, j=list.size(); i<j; i++) {
+				Object object = list.get(i);
+				if (object instanceof NameValuePair) {
+					if (i == j-1) {
+						isUrlEncodedFormEntity = true;
+					}
+					
+					continue;
+				}
+				
+				break;
+			}
+		}
+		
+		return isUrlEncodedFormEntity;
 	}
 	
 	private static CloseableHttpResponse execute(HttpUriRequest request, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws ClientProtocolException, IOException {
