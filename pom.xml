@@ -19,6 +19,9 @@
 		<commons-io.version>2.4</commons-io.version>
 		<apache-http-client.version>4.3.6</apache-http-client.version>
 
+		<!-- Native -->
+		<jna.version>4.5.1</jna.version>
+
 		<!-- Proxy -->
 		<proxy-vole.version>1.0.3</proxy-vole.version>
 
@@ -91,4 +94,20 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna</artifactId>
+				<version>${jna.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna-platform</artifactId>
+				<version>${jna.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 </project>
