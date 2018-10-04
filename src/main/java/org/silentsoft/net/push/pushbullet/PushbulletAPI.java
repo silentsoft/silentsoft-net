@@ -10,10 +10,6 @@ import org.silentsoft.net.rest.RESTfulAPI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PushbulletAPI extends RESTfulAPI {
-
-	static {
-		init("https://api.pushbullet.com", "/v2");
-	}
 	
 	public enum TargetType {
 		device_iden,
@@ -23,13 +19,13 @@ public class PushbulletAPI extends RESTfulAPI {
 	}
 	
 	public static UserInfo getUserInfo(String accessToken) throws Exception {
-		return doGet("/users/me", UserInfo.class, (request) -> {
+		return doGet("https://api.pushbullet.com/v2/users/me", UserInfo.class, (request) -> {
 			request.setHeader(new BasicHeader("Access-Token", accessToken));
 		});
 	}
 	
 	public static List<Device> getDevices(String accessToken) throws Exception {
-		Devices devices = doGet("/devices", Devices.class, (request) -> {
+		Devices devices = doGet("https://api.pushbullet.com/v2/devices", Devices.class, (request) -> {
 			request.setHeader(new BasicHeader("Access-Token", accessToken));
 		});
 		
@@ -43,7 +39,7 @@ public class PushbulletAPI extends RESTfulAPI {
 		param.put("title", title);
 		param.put("body", body);
 		
-		return doPost("/pushes", new ObjectMapper().writeValueAsString(param), Push.class, (request) -> {
+		return doPost("https://api.pushbullet.com/v2/pushes", new ObjectMapper().writeValueAsString(param), Push.class, (request) -> {
 			request.setHeader(new BasicHeader("Access-Token", accessToken));
 		});
 	}
