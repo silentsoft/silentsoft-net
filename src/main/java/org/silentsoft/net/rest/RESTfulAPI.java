@@ -12,260 +12,238 @@ import org.silentsoft.net.http.HttpClientManager;
  */
 public class RESTfulAPI {
 	
-	private static String uri;
-
-	private static String root;
-	
-	/**
-	 * call this method on child class's static initialization block after create dummy static init() method. 
-	 * all you need to do is just call child class's dummy static init() method one time.
-	 * reason of why to do this is just for prevent human mistake. if you do not want, which means
-	 * if you want change uri and root any time, just write init code to static init method. (not at initialization block) 
-	 * 
-	 * @param uri <b>http://service-ip:port</b>/your-server
-	 * @param root http://service-ip:port<b>/your-server</b>
-	 */
-	protected static void init(String uri, String root) {
-		RESTfulAPI.uri = uri;
-		RESTfulAPI.root = root;
+	public static <T> T doGet(String uri, Class<T> returnType) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, null, null, null);
 	}
-	
-	private static String getURI(String api) {
-		return uri + root + api;
+	public static <T> T doGet(String uri, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, charsetName, null, null);
 	}
-	
-	protected static <T> T doGet(String api, Class<T> returnType) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, null, null, null);
+	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doGet(String api, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, charsetName, null, null);
-	}
-	protected static <T> T doGet(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, charsetName, beforeRequest, null);
-	}
-	protected static <T> T doGet(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, null, null, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, null, null, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, charsetName, null, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, charsetName, null, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, charsetName, beforeRequest, afterResponse);
-	}
-	
-	protected static <T> T doGet(String api, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, null, null, null);
-	}
-	protected static <T> T doGet(String api, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, charsetName, null, null);
-	}
-	protected static <T> T doGet(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, charsetName, beforeRequest, null);
-	}
-	protected static <T> T doGet(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, null, null, null);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, null, null, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, charsetName, null, null);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, charsetName, null, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, charsetName, beforeRequest, null);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, null, null, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doGet(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, null, beforeRequest, null);
+	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doGet(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, null, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, null, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doGet(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, null, beforeRequest, null);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doGet(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), null, param, returnType, null, beforeRequest, afterResponse);
-	}
-	
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, null, beforeRequest, null);
-	}
-	protected static <T> T doGet(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, null, returnType, null, beforeRequest, afterResponse);
-	}
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, null, beforeRequest, null);
-	}
-	protected static <T> T doGet(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doGet(getURI(api), proxy, param, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doPost(String api, Class<T> returnType) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, null, null, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, charsetName, null, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doPost(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doGet(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doGet(uri, proxy, param, returnType, null, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doPost(String uri, Class<T> returnType) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, null, null, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, null, null, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, null, null, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, charsetName, null, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, charsetName, null, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, charsetName, beforeRequest, afterResponse);
-	}
-	
-	protected static <T> T doPost(String api, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, null, null, null);
-	}
-	protected static <T> T doPost(String api, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, charsetName, null, null);
-	}
-	protected static <T> T doPost(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, charsetName, beforeRequest, null);
-	}
-	protected static <T> T doPost(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, null, null, null);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, null, null, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, charsetName, null, null);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, charsetName, null, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, charsetName, beforeRequest, null);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, null, null, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doPost(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, null, beforeRequest, null);
+	public static <T> T doPost(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, null, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, null, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doPost(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, null, beforeRequest, null);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doPost(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), null, param, returnType, null, beforeRequest, afterResponse);
-	}
-	
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, null, beforeRequest, null);
-	}
-	protected static <T> T doPost(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, null, returnType, null, beforeRequest, afterResponse);
-	}
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, null, beforeRequest, null);
-	}
-	protected static <T> T doPost(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doPost(getURI(api), proxy, param, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doMultipart(String api, Class<T> returnType) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, null, null, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, charsetName, null, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doMultipart(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doPost(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doPost(uri, proxy, param, returnType, null, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doMultipart(String uri, Class<T> returnType) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, null, null, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, charsetName, null, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, null, null, null);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, null, null, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, charsetName, null, null);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, charsetName, null, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, charsetName, beforeRequest, null);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, charsetName, beforeRequest, afterResponse);
-	}
-	
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, null, null, null);
-	}
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, charsetName, null, null);
-	}
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, charsetName, beforeRequest, null);
-	}
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, charsetName, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, null, null, null);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, null, null, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, charsetName, null, null);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, charsetName, null, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, charsetName, beforeRequest, null);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, charsetName, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, charsetName, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, charsetName, beforeRequest, afterResponse);
+	}
+	
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, null, null, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, charsetName, null, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, charsetName, beforeRequest, null);
+	}
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, String charsetName, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, charsetName, beforeRequest, afterResponse);
 	}
 
-	protected static <T> T doMultipart(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, null, beforeRequest, null);
+	public static <T> T doMultipart(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, null, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, null, beforeRequest, null);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), null, param, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, null, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, null, beforeRequest, null);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, null, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, null, returnType, null, beforeRequest, afterResponse);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, null, beforeRequest, null);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, null, beforeRequest, null);
 	}
-	protected static <T> T doMultipart(String api, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
-		return HttpClientManager.doMultipart(getURI(api), proxy, param, returnType, null, beforeRequest, afterResponse);
+	public static <T> T doMultipart(String uri, HttpHost proxy, Object param, Class<T> returnType, Consumer<HttpRequest> beforeRequest, Consumer<HttpResponse> afterResponse) throws Exception {
+		return HttpClientManager.doMultipart(uri, proxy, param, returnType, null, beforeRequest, afterResponse);
 	}
 	
 }
