@@ -9,7 +9,7 @@
 	<repositories>
 		<repository>
 			<id>silentsoft-repository</id>
-			<url>http://nexus.silentsoft.org/repository/maven-releases</url>
+			<url>http://nexus.silentsoft.org/repository/maven-public</url>
 		</repository>
 	</repositories>
 
@@ -146,11 +146,11 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>maven-releases</id>
+			<id>silentsoft-maven-releases</id>
 			<url>http://nexus.silentsoft.org/repository/maven-releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>maven-snapshots</id>
+			<id>silentsoft-maven-snapshots</id>
 			<url>http://nexus.silentsoft.org/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
