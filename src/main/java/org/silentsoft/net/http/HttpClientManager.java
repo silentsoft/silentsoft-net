@@ -420,7 +420,7 @@ public class HttpClientManager {
 							if (param instanceof String) {
 								json = new JSONObject((String)param).toString();
 							} else {
-								json = new JSONObject(param).toString();
+								json = new ObjectMapper().writeValueAsString(param);
 							}
 							StringEntity stringEntity = new StringEntity(json, Charset.forName(_charsetName));
 							stringEntity.setContentType("application/json; charset=".concat(_charsetName));
