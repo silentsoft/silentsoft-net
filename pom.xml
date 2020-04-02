@@ -34,7 +34,7 @@
 
 		<!-- JSON -->
 		<jackson.version>2.10.3</jackson.version>
-		<jason.version>20141113</jason.version>
+		<json.version>20141113</json.version>
 
 		<!-- Logging -->
 		<slf4j.version>1.7.5</slf4j.version>
@@ -119,7 +119,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>${jason.version}</version>
+			<version>${json.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
