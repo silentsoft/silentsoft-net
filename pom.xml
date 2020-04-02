@@ -33,7 +33,7 @@
 		<proxy-vole.version>1.0.3</proxy-vole.version>
 
 		<!-- JSON -->
-		<jackson.version>2.10.2</jackson.version>
+		<jackson.version>2.10.3</jackson.version>
 		<jason.version>20141113</jason.version>
 
 		<!-- Logging -->
