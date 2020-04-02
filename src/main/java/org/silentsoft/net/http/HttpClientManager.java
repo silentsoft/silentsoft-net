@@ -463,7 +463,7 @@ public class HttpClientManager {
 							filePOJO.setBytes(null);
 						}
 						
-						multipartEntityBuilder.addTextBody("json", new JSONObject(storeItem).toString(), ContentType.APPLICATION_JSON);
+						multipartEntityBuilder.addTextBody("json", new ObjectMapper().writeValueAsString(storeItem), ContentType.APPLICATION_JSON);
 						
 						for (FilePOJO filePOJO : storeItem) {
 							filePOJO.setFile((File) fileBackupManager.restore(filePOJO));
