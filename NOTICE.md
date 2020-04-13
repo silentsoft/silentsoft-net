@@ -3,7 +3,7 @@ Copyright (c) silentsoft.org. All rights reserved.
 
 This product includes software developed by The Apache Software Foundation (http://www.apache.org/).
 
-__commons-codec 1.6__
+__commons-codec 1.11__
  * https://github.com/apache/commons-codec
  * Apache License 2.0
 
@@ -11,19 +11,19 @@ __commons-io 2.4__
  * https://github.com/apache/commons-io
  * Apache License 2.0
 
-__commons-logging 1.1.3__
+__commons-logging 1.2__
  * https://github.com/apache/commons-logging
  * Apache License 2.0
 
-__httpclient 4.3.6__
+__httpclient 4.5.12__
  * https://github.com/apache/httpcomponents-client
  * Apache License 2.0
 
-__httpcore 4.3.3__
+__httpcore 4.4.13__
  * https://github.com/apache/httpcomponents-core
  * Apache License 2.0
 
-__httpmime 4.3.6__
+__httpmime 4.5.12__
  * Apache License 2.0
 
 __ini4j 0.5.4__
