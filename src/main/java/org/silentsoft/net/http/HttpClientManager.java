@@ -30,8 +30,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.silentsoft.net.item.StoreItem;
 import org.silentsoft.net.pojo.FilePOJO;
@@ -44,12 +42,12 @@ public class HttpClientManager {
 	
 	static boolean useDefaultProxy = false;
 	
-	static {
-		/**
-		 * WARNING : DO NOT REMOVE BELOW CODE ! THIS IS VERY IMPORTANT FOR PERFORMANCE !!!
-		 */
-		Logger.getLogger("org.apache.http").setLevel(Level.OFF);
-	}
+//	static {
+//		/**
+//		 * WARNING : DO NOT REMOVE BELOW CODE ! THIS IS VERY IMPORTANT FOR PERFORMANCE !!!
+//		 */
+//		Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+//	}
 	
 	public static boolean isUseDefaultProxy() {
 		return useDefaultProxy;
