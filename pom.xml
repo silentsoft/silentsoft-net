@@ -6,7 +6,7 @@
 	
 	<groupId>org.silentsoft</groupId>
 	<artifactId>silentsoft-net</artifactId>
-	<version>1.4.0</version>
+	<version>1.5.0</version>
 	
 	<name>silentsoft-net</name>
 	<description>Network communication utility library</description>
