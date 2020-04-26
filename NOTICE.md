@@ -54,19 +54,11 @@ __json 20141113__
  * https://github.com/douglascrockford/JSON-java
  * JSON License
 
-__log4j 1.2.17__
- * https://github.com/apache/log4j
- * Apache License 2.0
-
 __proxy-vole 1.0.3__
  * https://github.com/MarkusBernhardt/proxy-vole
  * Apache License 2.0
 
-__slf4j-api 1.7.5__
- * https://github.com/qos-ch/slf4j
- * MIT License
-
-__slf4j-log4j12 1.7.5__
+__slf4j-api 1.7.25__
  * https://github.com/qos-ch/slf4j
  * MIT License
 
