@@ -42,7 +42,7 @@
 		<httpcomponents.version>4.5.12</httpcomponents.version>
 		<jna.version>4.5.1</jna.version>
 		<proxy-vole.version>1.0.3</proxy-vole.version>
-		<jackson.version>2.10.3</jackson.version>
+		<jackson.version>2.12.1</jackson.version>
 		<json.version>20141113</json.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<junit.version>4.8.1</junit.version>
