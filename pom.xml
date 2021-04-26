@@ -38,7 +38,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<commons-io.version>2.4</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<httpcomponents.version>4.5.12</httpcomponents.version>
 		<jna.version>4.5.1</jna.version>
 		<proxy-vole.version>1.0.3</proxy-vole.version>
